@@ -1,0 +1,10 @@
+# .github/metadata.yaml
+description: "Unified media type composing RFC 2045 Content-Type with RFC 9110 media types in Swift."
+topics:
+  - standards
+  - media-type
+  - mime
+  - content-type
+homepage: "https://swift-institute.org"
+readme:
+  family: E
