@@ -1,0 +1,6 @@
+# SwiftLint configuration for swift-media-type-standard
+# Inherits from the shared parent configuration in swift-standards
+
+parent_config: https://raw.githubusercontent.com/swift-standards/swift-standards/main/.swiftlint.yml
+
+# Package-specific overrides (if needed)
