@@ -1,4 +1,6 @@
 import Media_Type_Standard
+import RFC_2045
+import RFC_9110
 import Testing
 
 @Suite
@@ -32,7 +34,7 @@ struct Test {
             )
             let contentType = try RFC_2045.ContentType(mediaType)
             #expect(
-                contentType.parameters[RFC_2045.Parameter.Name(rawValue: "boundary")] == "abc123"
+                contentType.parameters[.boundary] == "abc123"
             )
         }
     }
@@ -56,8 +58,7 @@ struct Test {
             )
             let contentType = try RFC_2045.ContentType(mediaType)
             #expect(
-                contentType.parameters[RFC_2045.Parameter.Name(rawValue: "boundary")]
-                    == "with space"
+                contentType.parameters[.boundary] == "with space"
             )
         }
     }

@@ -15,6 +15,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/swift-ietf/swift-rfc-2045.git", branch: "main"),
+        .package(url: "https://github.com/swift-ietf/swift-rfc-2045-coder.git", branch: "main"),
         .package(url: "https://github.com/swift-ietf/swift-rfc-9110.git", branch: "main"),
     ],
     targets: [
@@ -22,13 +23,16 @@ let package = Package(
             name: "Media Type Standard",
             dependencies: [
                 .product(name: "RFC 2045", package: "swift-rfc-2045"),
+                .product(name: "RFC 2045 Coder", package: "swift-rfc-2045-coder"),
                 .product(name: "RFC 9110", package: "swift-rfc-9110"),
             ]
         ),
         .testTarget(
             name: "Media Type Standard Tests",
             dependencies: [
-                "Media Type Standard"
+                "Media Type Standard",
+                .product(name: "RFC 2045", package: "swift-rfc-2045"),
+                .product(name: "RFC 9110", package: "swift-rfc-9110"),
             ]
         ),
     ],
