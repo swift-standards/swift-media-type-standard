@@ -31,7 +31,7 @@ let package = Package(
         .testTarget(
             name: "Media Type Standard Tests",
             dependencies: [
-                "Media Type Standard",
+                .target(name: "Media Type Standard"),
                 .product(name: "RFC 2045", package: "swift-rfc-2045"),
                 .product(name: "RFC 9110", package: "swift-rfc-9110"),
             ]
@@ -41,17 +41,14 @@ let package = Package(
 )
 
 for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
-    let ecosystem: [SwiftSetting] = [
+    target.swiftSettings = (target.swiftSettings ?? []) + [
         .strictMemorySafety(),
         .enableUpcomingFeature("ExistentialAny"),
         .enableUpcomingFeature("InternalImportsByDefault"),
         .enableUpcomingFeature("MemberImportVisibility"),
         .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
-        .enableExperimentalFeature("Lifetimes"),
         .enableUpcomingFeature("InferIsolatedConformances"),
+        .enableExperimentalFeature("Lifetimes"),
+        .treatAllWarnings(as: .error),
     ]
-
-    let package: [SwiftSetting] = []
-
-    target.swiftSettings = (target.swiftSettings ?? []) + ecosystem + package
 }
