@@ -1,5 +1,4 @@
 public import RFC_2045
-import RFC_2045_Coder
 public import RFC_9110
 
 extension RFC_2045.ContentType {
