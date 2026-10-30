@@ -73,3 +73,33 @@ struct Test {
         }
     }
 }
+
+extension Test {
+    @Suite
+    struct Extension {
+        @Test
+        func `a registered extension names its media type`() {
+            #expect(RFC_9110.MediaType(extension: "pdf") == RFC_9110.MediaType("application", "pdf"))
+            #expect(RFC_9110.MediaType(extension: "jpg") == RFC_9110.MediaType("image", "jpeg"))
+            #expect(RFC_9110.MediaType(extension: "md") == RFC_9110.MediaType("text", "markdown"))
+            #expect(RFC_9110.MediaType(extension: "eml") == RFC_9110.MediaType("message", "rfc822"))
+            #expect(
+                RFC_9110.MediaType(extension: "docx")
+                    == RFC_9110.MediaType("application", "vnd.openxmlformats-officedocument.wordprocessingml.document")
+            )
+        }
+
+        @Test
+        func `an extension is compared without regard to case`() {
+            #expect(RFC_9110.MediaType(extension: "PDF") == RFC_9110.MediaType("application", "pdf"))
+            #expect(RFC_9110.MediaType(extension: "Html") == RFC_9110.MediaType("text", "html"))
+        }
+
+        @Test
+        func `an extension no registration names has no media type`() {
+            #expect(RFC_9110.MediaType(extension: "unknownextension") == nil)
+            #expect(RFC_9110.MediaType(extension: "") == nil)
+            #expect(RFC_9110.MediaType(extension: ".pdf") == nil)
+        }
+    }
+}
