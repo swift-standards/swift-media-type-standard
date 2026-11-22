@@ -1,14 +1,14 @@
 public import RFC_2045
 public import RFC_9110
 
-extension RFC_2045.ContentType {
+extension IETF.RFC.`2045`.ContentType {
 
-    public init(_ mediaType: RFC_9110.MediaType) throws(RFC_2045.ContentType.Error) {
-        var parameters: [RFC_2045.Parameter.Name: String] = [:]
+    public init(_ mediaType: IETF.RFC.`9110`.MediaType) throws(IETF.RFC.`2045`.ContentType.Error) {
+        var parameters: [IETF.RFC.`2045`.Parameter.Name: String] = [:]
         for (name, value) in mediaType.parameters {
-            let parameterName: RFC_2045.Parameter.Name
-            do throws(RFC_2045.Parameter.Name.Error) {
-                parameterName = try RFC_2045.Parameter.Name(name)
+            let parameterName: IETF.RFC.`2045`.Parameter.Name
+            do throws(IETF.RFC.`2045`.Parameter.Name.Error) {
+                parameterName = try IETF.RFC.`2045`.Parameter.Name(name)
             } catch {
                 throw .invalidParameter(name, reason: error.description)
             }
@@ -16,13 +16,13 @@ extension RFC_2045.ContentType {
                 throw .invalidParameter(name, reason: "parameter name is repeated")
             }
         }
-        let candidate = RFC_2045.ContentType(
+        let candidate = IETF.RFC.`2045`.ContentType(
             __unchecked: (),
             type: mediaType.type,
             subtype: mediaType.subtype,
             parameters: parameters
         )
-        let parsed = try RFC_2045.ContentType(candidate.rawValue)
+        let parsed = try IETF.RFC.`2045`.ContentType(candidate.rawValue)
         guard parsed == candidate else {
             throw .invalidParameter(
                 candidate.rawValue,

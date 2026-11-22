@@ -9,8 +9,8 @@ struct Test {
     struct Unit {
         @Test
         func `ContentType converges to MediaType`() throws {
-            let contentType = try RFC_2045.ContentType("text/html; charset=UTF-8")
-            let mediaType = RFC_9110.MediaType(contentType)
+            let contentType = try IETF.RFC.`2045`.ContentType("text/html; charset=UTF-8")
+            let mediaType = IETF.RFC.`9110`.MediaType(contentType)
             #expect(mediaType.type == "text")
             #expect(mediaType.subtype == "html")
             #expect(mediaType.parameters["charset"] == "UTF-8")
@@ -18,8 +18,8 @@ struct Test {
 
         @Test
         func `MediaType converges to ContentType`() throws {
-            let mediaType = RFC_9110.MediaType("application", "json")
-            let contentType = try RFC_2045.ContentType(mediaType)
+            let mediaType = IETF.RFC.`9110`.MediaType("application", "json")
+            let contentType = try IETF.RFC.`2045`.ContentType(mediaType)
             #expect(contentType.type == "application")
             #expect(contentType.subtype == "json")
             #expect(contentType.parameters.isEmpty)
@@ -27,12 +27,12 @@ struct Test {
 
         @Test
         func `MediaType with parameter converges to ContentType`() throws {
-            let mediaType = RFC_9110.MediaType(
+            let mediaType = IETF.RFC.`9110`.MediaType(
                 "multipart",
                 "form-data",
                 parameters: ["boundary": "abc123"]
             )
-            let contentType = try RFC_2045.ContentType(mediaType)
+            let contentType = try IETF.RFC.`2045`.ContentType(mediaType)
             #expect(
                 contentType.parameters[.boundary] == "abc123"
             )
@@ -43,20 +43,20 @@ struct Test {
     struct `Edge Case` {
         @Test
         func `invalid MediaType type rejects`() {
-            let mediaType = RFC_9110.MediaType("", "plain")
-            #expect(throws: RFC_2045.ContentType.Error.self) {
-                try RFC_2045.ContentType(mediaType)
+            let mediaType = IETF.RFC.`9110`.MediaType("", "plain")
+            #expect(throws: IETF.RFC.`2045`.ContentType.Error.self) {
+                try IETF.RFC.`2045`.ContentType(mediaType)
             }
         }
 
         @Test
         func `quoted parameter value survives`() throws {
-            let mediaType = RFC_9110.MediaType(
+            let mediaType = IETF.RFC.`9110`.MediaType(
                 "multipart",
                 "form-data",
                 parameters: ["boundary": "with space"]
             )
-            let contentType = try RFC_2045.ContentType(mediaType)
+            let contentType = try IETF.RFC.`2045`.ContentType(mediaType)
             #expect(
                 contentType.parameters[.boundary] == "with space"
             )
@@ -67,8 +67,8 @@ struct Test {
     struct Integration {
         @Test
         func `round trip preserves identity`() throws {
-            let original = try RFC_2045.ContentType("multipart/form-data; boundary=xYz-123")
-            let roundTripped = try RFC_2045.ContentType(RFC_9110.MediaType(original))
+            let original = try IETF.RFC.`2045`.ContentType("multipart/form-data; boundary=xYz-123")
+            let roundTripped = try IETF.RFC.`2045`.ContentType(IETF.RFC.`9110`.MediaType(original))
             #expect(roundTripped == original)
         }
     }
@@ -79,27 +79,27 @@ extension Test {
     struct Extension {
         @Test
         func `a registered extension names its media type`() {
-            #expect(RFC_9110.MediaType(extension: "pdf") == RFC_9110.MediaType("application", "pdf"))
-            #expect(RFC_9110.MediaType(extension: "jpg") == RFC_9110.MediaType("image", "jpeg"))
-            #expect(RFC_9110.MediaType(extension: "md") == RFC_9110.MediaType("text", "markdown"))
-            #expect(RFC_9110.MediaType(extension: "eml") == RFC_9110.MediaType("message", "rfc822"))
+            #expect(IETF.RFC.`9110`.MediaType(extension: "pdf") == IETF.RFC.`9110`.MediaType("application", "pdf"))
+            #expect(IETF.RFC.`9110`.MediaType(extension: "jpg") == IETF.RFC.`9110`.MediaType("image", "jpeg"))
+            #expect(IETF.RFC.`9110`.MediaType(extension: "md") == IETF.RFC.`9110`.MediaType("text", "markdown"))
+            #expect(IETF.RFC.`9110`.MediaType(extension: "eml") == IETF.RFC.`9110`.MediaType("message", "rfc822"))
             #expect(
-                RFC_9110.MediaType(extension: "docx")
-                    == RFC_9110.MediaType("application", "vnd.openxmlformats-officedocument.wordprocessingml.document")
+                IETF.RFC.`9110`.MediaType(extension: "docx")
+                    == IETF.RFC.`9110`.MediaType("application", "vnd.openxmlformats-officedocument.wordprocessingml.document")
             )
         }
 
         @Test
         func `an extension is compared without regard to case`() {
-            #expect(RFC_9110.MediaType(extension: "PDF") == RFC_9110.MediaType("application", "pdf"))
-            #expect(RFC_9110.MediaType(extension: "Html") == RFC_9110.MediaType("text", "html"))
+            #expect(IETF.RFC.`9110`.MediaType(extension: "PDF") == IETF.RFC.`9110`.MediaType("application", "pdf"))
+            #expect(IETF.RFC.`9110`.MediaType(extension: "Html") == IETF.RFC.`9110`.MediaType("text", "html"))
         }
 
         @Test
         func `an extension no registration names has no media type`() {
-            #expect(RFC_9110.MediaType(extension: "unknownextension") == nil)
-            #expect(RFC_9110.MediaType(extension: "") == nil)
-            #expect(RFC_9110.MediaType(extension: ".pdf") == nil)
+            #expect(IETF.RFC.`9110`.MediaType(extension: "unknownextension") == nil)
+            #expect(IETF.RFC.`9110`.MediaType(extension: "") == nil)
+            #expect(IETF.RFC.`9110`.MediaType(extension: ".pdf") == nil)
         }
     }
 }

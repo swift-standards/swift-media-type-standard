@@ -1,6 +1,6 @@
 public import RFC_9110
 
-extension RFC_9110.MediaType {
+extension IETF.RFC.`9110`.MediaType {
     /// The media type whose registration names `extension` as its file extension, compared without regard to case and
     /// given without its dot; nil for an extension no registration below names.
     public init?(extension name: String) {

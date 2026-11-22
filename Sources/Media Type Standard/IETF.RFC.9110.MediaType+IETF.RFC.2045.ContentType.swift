@@ -1,9 +1,9 @@
 public import RFC_2045
 public import RFC_9110
 
-extension RFC_9110.MediaType {
+extension IETF.RFC.`9110`.MediaType {
 
-    public init(_ contentType: RFC_2045.ContentType) {
+    public init(_ contentType: IETF.RFC.`2045`.ContentType) {
         self.init(
             contentType.type,
             contentType.subtype,
